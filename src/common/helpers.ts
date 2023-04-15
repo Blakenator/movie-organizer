@@ -23,7 +23,7 @@ export function replacementsFromMovie(
       .replace(/[:]/g, ' -')
       .trim(),
     resolution: getFancyResolution(movie.metadata.resolution),
-    year: new Date(movie.metadata.airDate).getFullYear().toString(),
+    year: new Date(+movie.metadata.airDate * 1000).getFullYear().toString(),
   };
 }
 

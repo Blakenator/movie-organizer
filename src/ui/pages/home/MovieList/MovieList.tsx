@@ -20,6 +20,7 @@ import { groupBy, keyBy, uniq } from 'lodash';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { ipcOnce } from '../../../core-ui/ipc/helpers';
 import { Channel } from '../../../../common/channel';
+import { ListSelectionControls } from '../../../core-ui/ListSelectionControls/ListSelectionControls';
 
 interface MovieListProps {
   movies?: PlexFile<PlexMovieMetadata>[];
@@ -116,50 +117,14 @@ export const MovieList: React.FC<MovieListProps> = ({
 
   return filteredMovies ? (
     <div className="d-flex flex-column">
-      <div className="mb-2 px-4 d-flex align-items-center">
-        <span className="text-muted">
-          {filteredMovies.length} results - {selection.size} selected
-        </span>
-        <button
-          className="btn btn-sm btn-outline-secondary mx-2"
-          onClick={() => {
-            if (movies.every(({ id }) => selection.has(id))) {
-              movies.forEach(({ id }) => {
-                selection.delete(id);
-              });
-            } else {
-              movies.forEach(({ id }) => {
-                selection.add(id);
-              });
-            }
-            selectionUpdated();
-          }}
-        >
-          Select All
-        </button>
-        <button
-          className="btn btn-sm btn-outline-secondary mx-2"
-          onClick={() => {
-            if (filteredMovies.every(({ id }) => selection.has(id))) {
-              filteredMovies.forEach(({ id }) => selection.delete(id));
-            } else {
-              filteredMovies.forEach(({ id }) => selection.add(id));
-            }
-            selectionUpdated();
-          }}
-        >
-          Select Visible
-        </button>
-        <button
-          className="btn btn-sm btn-outline-secondary mx-2"
-          onClick={() => {
-            selection.clear();
-            selectionUpdated();
-          }}
-        >
-          Clear Selection
-        </button>
-      </div>
+      <ListSelectionControls
+        sourceList={movies.map(({ id }) => id)}
+        filteredList={filteredMovies.map(({ id }) => id)}
+        selectedList={[...selection]}
+        onSelectionChanged={(newSelection) =>
+          setSelection(new Set(newSelection))
+        }
+      />
       <div
         className="d-grid"
         style={{ gridTemplateColumns: 'repeat(4, minmax(10em,1fr))' }}
@@ -268,6 +233,7 @@ export const MovieList: React.FC<MovieListProps> = ({
           )
         )}
       </div>
+      ;
     </div>
   ) : null;
 };

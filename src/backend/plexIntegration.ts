@@ -77,6 +77,64 @@ export class PlexIntegration {
     });
   }
 
+  async loadTvShows(): Promise<PlexFile<PlexMovieMetadata>[]> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.plexDb.all(
+          `SELECT mi.id,
+                  mi.title,
+                  ls.name                    AS library,
+                  sl.root_path               AS libraryPath,
+                  mit.height                 AS resolution,
+                  mi.originally_available_at AS airDate,
+                  mp.file                    AS filepath,
+                  ms.url                     AS subtitleFilepath
+           FROM metadata_items mi
+                  INNER JOIN media_items mit ON mit.metadata_item_id = mi.id
+                  INNER JOIN media_parts mp ON mp.media_item_id = mit.id
+                  LEFT JOIN media_streams ms ON ms.media_item_id = mit.id AND stream_type_id = 3 AND url LIKE 'file://%'
+                  INNER JOIN library_sections ls ON mi.library_section_id = ls.id AND ls.section_type = 1
+                  INNER JOIN section_locations sl ON sl.library_section_id = ls.id
+           WHERE mi.remote IS NULL`,
+          (err, results) => {
+            const resultsById = groupBy(results, 'id');
+            resolve(
+              sortBy(
+                Object.values(resultsById).map((deduped) => ({
+                  id: deduped[0].id,
+                  library: deduped[0].library,
+                  libraryPath: deduped[0].libraryPath,
+                  filepaths: uniq(
+                    deduped
+                      .map(({ filepath, subtitleFilepath }) =>
+                        subtitleFilepath
+                          ? [
+                              filepath,
+                              decodeURIComponent(
+                                subtitleFilepath.replace('file://', '')
+                              ),
+                            ]
+                          : [filepath]
+                      )
+                      .flat(3)
+                  ),
+                  metadata: {
+                    title: deduped[0].title,
+                    airDate: deduped[0].airDate,
+                    resolution: deduped[0].resolution,
+                  },
+                })),
+                'metadata.title'
+              )
+            );
+          }
+        );
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
   swapLibForTestFolder(filename: string) {
     const TEST_MODE = false;
     return TEST_MODE
