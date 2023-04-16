@@ -12,10 +12,11 @@ import { TransformedPaths } from '../../../common/types';
 export function compareFileToOptions(
   parsed: ParsedTvMetadata[],
   file: FileObject,
-  ext: string,
-  renameSettings: RenameSettings
+  renameSettings: RenameSettings,
+  showAll?: boolean
 ): ProcessedMatch[] {
-  return orderBy(
+  const ext = file.filename.substring(file.filename.lastIndexOf('.') + 1);
+  const results = orderBy(
     parsed.map((ep) => {
       const filename = renameSettings.replaceInEpisodes?.trim()
         ? file.filename.replace(
@@ -69,7 +70,9 @@ export function compareFileToOptions(
     }),
     ['distance', 'episode.tag'],
     ['asc', 'asc']
-  ).slice(0, 5);
+  );
+
+  return showAll ? results : results.slice(0, 5);
 }
 
 export function buildRenamingList(

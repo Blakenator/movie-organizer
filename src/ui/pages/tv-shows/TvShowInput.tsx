@@ -145,6 +145,7 @@ export const TvShowInput: React.FC<TvShowInputProps> = ({
                 CACHE_KEY_FILES,
                 JSON.stringify(parsedFileObjects)
               );
+              event.target.value = null;
             } else {
               console.log('empty');
             }

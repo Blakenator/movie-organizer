@@ -174,12 +174,9 @@ export const TvShows: React.FC = () => {
               setSelection([]);
               fileObjects.forEach((file) => {
                 setTimeout(() => {
-                  const ext = file.filename.substring(
-                    file.filename.lastIndexOf('.') + 1
-                  );
                   setProcessedObjects((prevState) =>
                     prevState.concat([
-                      compareFileToOptions(parsed, file, ext, renameSettings),
+                      compareFileToOptions(parsed, file, renameSettings),
                     ])
                   );
                 }, 10);
@@ -271,6 +268,8 @@ export const TvShows: React.FC = () => {
             }}
             overrides={overrides}
             setOverrides={setOverrides}
+            renameSettings={renameSettings}
+            parsedEpisodeData={parsed}
           />
         ))}
       </div>
