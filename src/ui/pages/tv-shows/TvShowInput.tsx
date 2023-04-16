@@ -112,7 +112,7 @@ export const TvShowInput: React.FC<TvShowInputProps> = ({
           {fileObjectsComplete && (
             <FontAwesomeIcon
               icon={faCheckCircle}
-              className="text-success me-2"
+              className="text-success"
               title="Toggle selection"
             />
           )}

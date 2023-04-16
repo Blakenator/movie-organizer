@@ -11,7 +11,6 @@ export enum Channel {
   RenameMovies = 'RENAME_MOVIES',
   RestoreAddedAt = 'RESTORE_ADDED_AT',
   ShowFolder = 'SHOW_FOLDER',
-  GetAllFilesInFolder = 'GET_ALL_FILES_IN_FOLDER',
 }
 
 export interface ChannelTypes {
@@ -20,5 +19,4 @@ export interface ChannelTypes {
   [Channel.RenameMovies]: [[TransformedPaths[]], RenameReport];
   [Channel.RestoreAddedAt]: [[string[]], boolean];
   [Channel.ShowFolder]: [[string], void];
-  [Channel.GetAllFilesInFolder]: [[string], string[]];
 }

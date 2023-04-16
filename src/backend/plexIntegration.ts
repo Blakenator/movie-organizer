@@ -157,9 +157,9 @@ export class PlexIntegration {
     transformedPaths.forEach(({ changed, oldPaths, newPaths, id }) => {
       if (changed) {
         oldPaths.forEach((oldpath, i) => {
-          const newpath = this.swapLibForTestFolder(newPaths[i]);
-          const oldpathsafe = this.swapLibForTestFolder(oldpath);
-          const newParentDir = this.swapLibForTestFolder(path.dirname(newpath));
+          const newPath = this.swapLibForTestFolder(newPaths[i]);
+          const oldPathSafe = this.swapLibForTestFolder(oldpath);
+          const newParentDir = this.swapLibForTestFolder(path.dirname(newPath));
           const oldParentDir = this.swapLibForTestFolder(path.dirname(oldpath));
 
           // test if new dir exists
@@ -167,32 +167,32 @@ export class PlexIntegration {
             fs.mkdirSync(newParentDir, { recursive: true });
           }
           // test if new filename exists
-          if (fs.existsSync(newpath)) {
+          if (fs.existsSync(newPath)) {
             // skip this file
             console.log(
-              'Skipping rename because "' + newpath + '" already exists'
+              'Skipping rename because "' + newPath + '" already exists'
             );
             report.skippedPaths.push({
-              value: newpath,
+              value: newPath,
               message: 'New filename already exists',
             });
             return;
           }
           // test if old filename exists
-          if (!fs.existsSync(oldpathsafe)) {
+          if (!fs.existsSync(oldPathSafe)) {
             // skip this file
             console.log(
               'Skipping rename because "' +
-                oldpathsafe +
+                oldPathSafe +
                 '"Old filename does not exist'
             );
-            report.skippedPaths.push({ value: newpath, message: '' });
+            report.skippedPaths.push({ value: newPath, message: '' });
             return;
           }
           // rename file
           // skip this file
-          console.log('Renaming file "' + newpath + '"...');
-          fs.renameSync(oldpathsafe, newpath);
+          console.log('Renaming file "' + newPath + '"...');
+          fs.renameSync(oldPathSafe, newPath);
           report.renamedIds.push({
             value: id,
             message: 'Renamed successfully',

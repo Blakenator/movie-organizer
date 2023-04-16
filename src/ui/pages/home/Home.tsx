@@ -1,6 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   PlexFile,
   PlexMovieMetadata,
@@ -49,6 +47,13 @@ export const Home: React.FC = () => {
       openAndLoadMovies();
     }
   }, [path]);
+  const titlesById = useMemo(
+    () =>
+      Object.fromEntries(
+        (movieList ?? []).map((movie) => [movie.id, movie.metadata.title])
+      ),
+    [movieList]
+  );
 
   return (
     <>
@@ -121,7 +126,7 @@ export const Home: React.FC = () => {
       <RenameReportModal
         report={renameReport}
         loading={renameLoading}
-        movies={movieList}
+        titleById={titlesById}
         onDismiss={() => {
           setRenameReport(undefined);
           fetchMovies();

@@ -1,7 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { FileObject, ParsedTvMetadata, ProcessedMatch } from './types';
+import {
+  FileObject,
+  ParsedTvMetadata,
+  ProcessedMatch,
+  RenameSettings,
+} from './types';
 import { TvShowTile } from './TvShowTile';
-import { compareFileToOptions } from './helpers';
+import { buildRenamingList, compareFileToOptions } from './helpers';
 import { orderBy } from 'lodash';
 import { ProgressBar } from '../../core-ui/ProgressBar/ProgressBar';
 import { ListSelectionControls } from '../../core-ui/ListSelectionControls/ListSelectionControls';
@@ -10,6 +15,13 @@ import { TvShowInput } from './TvShowInput';
 import { Histogram } from '../../core-ui/Histogram/Histogram';
 import { TvShowFilterState } from './TvShowFilters/types';
 import { TvShowFilters } from './TvShowFilters/TvShowFilters';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { ipcOnce } from '../../core-ui/ipc/helpers';
+import { Channel } from '../../../common/channel';
+import { RenameReport } from '../../../common/types';
+import { RenameReportModal } from '../home/RenameReportModal/RenameReportModal';
+import { TvRenameSettings } from './TvRenameSettings/TvRenameSettings';
 
 export const TvShows: React.FC = () => {
   const [episodeData, setEpisodeData] = useState(
@@ -26,6 +38,12 @@ export const TvShows: React.FC = () => {
     [((val: ProcessedMatch[]) => string)[], ('asc' | 'desc')[]]
   >([[([match]) => match.newFilename], ['asc']]);
   const [filters, setFilters] = useState<TvShowFilterState>({});
+  const [overrides, setOverrides] = useState<Record<string, ProcessedMatch>>(
+    {}
+  );
+  const [renameSettings, setRenameSettings] = useState<RenameSettings>({});
+  const [renameLoading, setRenameLoading] = useState(false);
+  const [renameReport, setRenameReport] = useState<RenameReport>();
   const parsed: ParsedTvMetadata[] = useMemo(() => {
     try {
       const parsedData = JSON.parse(episodeData || '[]');
@@ -55,8 +73,8 @@ export const TvShows: React.FC = () => {
           return {
             name,
             tag,
-            seasonNumber: seasonNumber ?? specialSeasonNumber,
-            episodeNumber: episodeNumber ?? specialEpisodeNumber,
+            seasonNumber: +(seasonNumber ?? specialSeasonNumber),
+            episodeNumber: +(episodeNumber ?? specialEpisodeNumber),
           };
         }
         console.error("Couldn't match season tag", { tag, name });
@@ -91,17 +109,20 @@ export const TvShows: React.FC = () => {
               valid &&
               Math.round(
                 (list[0].distance / list[0].file.filename.length) * 100
-              ) < filters.maxDiffPercent;
+              ) <= filters.maxDiffPercent;
           }
           if (filters.minDiffPercent !== undefined) {
             valid =
               valid &&
               Math.round(
                 (list[0].distance / list[0].file.filename.length) * 100
-              ) > filters.minDiffPercent;
+              ) >= filters.minDiffPercent;
           }
           if (filters.excludePerfectMatches) {
             valid = valid && list[0].distance > 0;
+          }
+          if (filters.onlyChangedTags !== undefined) {
+            valid = valid && list[0].tagChanged === filters.onlyChangedTags;
           }
           return valid;
         }),
@@ -123,43 +144,81 @@ export const TvShows: React.FC = () => {
     >
       <TvShowInput
         episodeData={episodeData}
-        setEpisodeData={setEpisodeData}
+        setEpisodeData={(val) => {
+          setEpisodeData(val);
+          setProcessedObjects([]);
+          setSelection([]);
+        }}
         parsedData={parsed}
         fileObjects={fileObjects}
-        setFileObjects={setFileObjects}
+        setFileObjects={(val) => {
+          setFileObjects(val);
+          setProcessedObjects([]);
+          setSelection([]);
+        }}
       />
-
-      <button
-        className="btn btn-danger"
-        onClick={() => {
-          if (parsed.length > 0 && fileObjects.length > 0) {
-            setProcessedObjects([]);
-            fileObjects.forEach((file) => {
-              setTimeout(() => {
-                const ext = file.filename.substring(
-                  file.filename.lastIndexOf('.') + 1
-                );
-                setProcessedObjects((prevState) =>
-                  prevState.concat([compareFileToOptions(parsed, file, ext)])
-                );
-              }, 10);
+      <div className="d-flex" style={{ gap: '.5em' }}>
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            if (parsed.length > 0 && fileObjects.length > 0) {
+              if (
+                processedObjects.length > 0 &&
+                !confirm(
+                  'Are you sure you want to re-process? This will clear your current selection'
+                )
+              ) {
+                return;
+              }
+              setProcessedObjects([]);
+              setSelection([]);
+              fileObjects.forEach((file) => {
+                setTimeout(() => {
+                  const ext = file.filename.substring(
+                    file.filename.lastIndexOf('.') + 1
+                  );
+                  setProcessedObjects((prevState) =>
+                    prevState.concat([
+                      compareFileToOptions(parsed, file, ext, renameSettings),
+                    ])
+                  );
+                }, 10);
+              });
+            }
+          }}
+        >
+          Process
+        </button>
+        <button
+          className="btn btn-success"
+          onClick={() => {
+            setSortCol([
+              [([match]) => match.newFilename],
+              [sortCol[1][0] === 'asc' ? 'desc' : 'asc'],
+            ]);
+          }}
+        >
+          Toggle Sort Order
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            setRenameLoading(true);
+            ipcOnce(
+              Channel.RenameMovies,
+              buildRenamingList(processedObjects, selectionSet, overrides)
+            ).then((report) => {
+              setRenameReport(report);
+              setRenameLoading(false);
+              console.log(report);
             });
-          }
-        }}
-      >
-        Process
-      </button>
-      <button
-        className="btn btn-success"
-        onClick={() => {
-          setSortCol([
-            [([match]) => match.newFilename],
-            [sortCol[1][0] === 'asc' ? 'desc' : 'asc'],
-          ]);
-        }}
-      >
-        Toggle Sort Order
-      </button>
+          }}
+          disabled={renameLoading || !!renameReport || selection.length === 0}
+        >
+          <FontAwesomeIcon icon={faSave} className="me-2" />
+          Rename Files
+        </button>
+      </div>
       {fileObjects.length > 0 && (
         <ProgressBar
           value={processedObjects.length}
@@ -167,6 +226,10 @@ export const TvShows: React.FC = () => {
           showMax
         />
       )}
+      <TvRenameSettings
+        renameSettings={renameSettings}
+        setRenameSettings={setRenameSettings}
+      />
       <div className="card p-3 d-flex flex-column" style={{ gap: '.5em' }}>
         <Histogram
           dataset={processedObjects}
@@ -194,6 +257,7 @@ export const TvShows: React.FC = () => {
       >
         {displayList.map((list) => (
           <TvShowTile
+            key={list[0].file.filename}
             processedEpisodes={list}
             selected={selectionSet.has(list[0].file.filename)}
             setSelected={(val) => {
@@ -205,9 +269,16 @@ export const TvShows: React.FC = () => {
               }
               setSelection([...selectionSet.values()]);
             }}
+            overrides={overrides}
+            setOverrides={setOverrides}
           />
         ))}
       </div>
+      <RenameReportModal
+        report={renameReport}
+        loading={renameLoading}
+        onDismiss={() => setRenameReport(undefined)}
+      />
     </div>
   );
 };

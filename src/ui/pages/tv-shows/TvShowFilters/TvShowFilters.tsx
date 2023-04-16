@@ -111,6 +111,26 @@ export const TvShowFilters: React.FC<TvShowFiltersProps> = ({
         />
         Exclude Perfect Matches
       </label>
+      <select
+        className="form-select"
+        style={{ width: '20em' }}
+        value={tempFilters.onlyChangedTags + ''}
+        onChange={(event) =>
+          setTempFilters({
+            ...tempFilters,
+            onlyChangedTags:
+              event.target.value === 'true'
+                ? true
+                : event.target.value === 'false'
+                ? false
+                : undefined,
+          })
+        }
+      >
+        <option value="undefined">Both Changed and Unchanged Tags</option>
+        <option value="true">Only Changed Tags</option>
+        <option value="false">Only Unchanged Tags</option>
+      </select>
       <div className="d-flex" style={{ gap: '1em' }}>
         <button
           className="btn btn-outline-secondary"

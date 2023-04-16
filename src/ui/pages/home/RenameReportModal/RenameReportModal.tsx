@@ -1,26 +1,20 @@
-import React, { useMemo } from 'react';
-import {
-  PlexFile,
-  PlexMovieMetadata,
-  RenameReport,
-} from '../../../../common/types';
+import React from 'react';
+import { RenameReport } from '../../../../common/types';
 import { Accordion, Modal, Spinner } from 'react-bootstrap';
-import { keyBy } from 'lodash';
 
 interface RenameReportModalProps {
   report: RenameReport;
-  movies: PlexFile<PlexMovieMetadata>[];
   loading: boolean;
   onDismiss: () => void;
+  titleById?: Record<string, string>;
 }
 
 export const RenameReportModal: React.FC<RenameReportModalProps> = ({
   report,
   loading,
   onDismiss,
-  movies,
+  titleById,
 }) => {
-  const moviesById = useMemo(() => keyBy(movies ?? [], 'id'), [movies]);
   return loading || report ? (
     <Modal show={true} centered>
       {loading ? (
@@ -34,7 +28,7 @@ export const RenameReportModal: React.FC<RenameReportModalProps> = ({
             <Accordion>
               <Accordion.Item eventKey="renamed">
                 <Accordion.Header>
-                  Movies Renamed ({report.renamedIds.length})
+                  Items Renamed ({report.renamedIds.length})
                 </Accordion.Header>
                 <Accordion.Body>
                   {report.renamedIds.length === 0 && (
@@ -43,7 +37,7 @@ export const RenameReportModal: React.FC<RenameReportModalProps> = ({
                   <ul>
                     {report.renamedIds.map(({ value, message }) => (
                       <li key={value}>
-                        {moviesById[value].metadata.title} - {message}
+                        {titleById?.[value] ?? value} - {message}
                       </li>
                     ))}
                   </ul>
@@ -51,7 +45,7 @@ export const RenameReportModal: React.FC<RenameReportModalProps> = ({
               </Accordion.Item>
               <Accordion.Item eventKey="skipped">
                 <Accordion.Header>
-                  Movies skipped ({report.skippedIds.length})
+                  Items skipped ({report.skippedIds.length})
                 </Accordion.Header>
                 <Accordion.Body>
                   {report.skippedIds.length === 0 && (
@@ -60,7 +54,7 @@ export const RenameReportModal: React.FC<RenameReportModalProps> = ({
                   <ul>
                     {report.skippedIds.map(({ value, message }) => (
                       <li key={value}>
-                        {moviesById[value].metadata.title} - {message}
+                        {titleById?.[value] ?? value} - {message}
                       </li>
                     ))}
                   </ul>

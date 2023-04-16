@@ -29,11 +29,11 @@ export function replacementsFromMovie(
 
 export function transformPattern(
   pattern: string,
-  replacements: Record<string, string>
+  replacements: Record<string, string | number>
 ) {
   let result = pattern;
   Object.entries(replacements).forEach(([key, val]) => {
-    result = result.replace(new RegExp(`\\{${key}\\}`, 'gi'), val);
+    result = result.replace(new RegExp(`\\{${key}\\}`, 'gi'), val.toString());
   });
   return result.trim();
 }

@@ -7,8 +7,8 @@ export interface FileObject {
 export interface ParsedTvMetadata {
   tag: string;
   name: string;
-  episodeNumber?: string;
-  seasonNumber?: string;
+  episodeNumber?: number;
+  seasonNumber?: number;
 }
 
 export type ProcessedMatch = {
@@ -19,4 +19,11 @@ export type ProcessedMatch = {
   prevNormFilename: string;
   newFilename: string;
   newFolderName: string;
+  tagChanged: boolean;
 };
+
+export interface RenameSettings {
+  replaceInEpisodes?: string;
+  fileTemplate?: string;
+  folderTemplate?: string;
+}

@@ -3,4 +3,5 @@ export interface TvShowFilterState {
   maxDiffPercent?: number;
   minDiffPercent?: number;
   excludePerfectMatches?: boolean;
+  onlyChangedTags?: boolean;
 }
