@@ -20,9 +20,8 @@ const script = `
 JSON.stringify(
   [...document.querySelectorAll('.list-group-item')].map((el) => ({
     tag: el.querySelector('.episode-label').textContent,
-    name: el
-      .querySelector('.list-group-item-heading a')
-      .textContent.trim(),
+    name: el.querySelector('.list-group-item-heading a').textContent.trim(),
+    description: el.querySelector('.list-group-item-text p').textContent.trim(),
   }))
 )
 `;
@@ -70,7 +69,9 @@ export const TvShowInput: React.FC<TvShowInputProps> = ({
               title="Toggle selection"
             />
           )}
-          <span style={{ flexGrow: 1 }}>Scrape Episode Metadata</span>
+          <span style={{ flexGrow: 1 }}>
+            Scrape Episode Metadata ({parsedData?.length})
+          </span>
           <FontAwesomeIcon
             icon={episodeDataCollapsed ? faChevronDown : faChevronUp}
           />
@@ -116,7 +117,9 @@ export const TvShowInput: React.FC<TvShowInputProps> = ({
               title="Toggle selection"
             />
           )}
-          <span style={{ flexGrow: 1 }}>Select Source Folder</span>
+          <span style={{ flexGrow: 1 }}>
+            Select Source Folder ({fileObjects?.length})
+          </span>
           <FontAwesomeIcon
             icon={fileObjectsCollapsed ? faChevronDown : faChevronUp}
           />

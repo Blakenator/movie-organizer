@@ -9,6 +9,7 @@ export interface ParsedTvMetadata {
   name: string;
   episodeNumber?: number;
   seasonNumber?: number;
+  description: string;
 }
 
 export type ProcessedMatch = {

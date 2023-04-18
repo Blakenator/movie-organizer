@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { ParsedTvMetadata, ProcessedMatch, RenameSettings } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faAlignLeft, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { compareFileToOptions } from './helpers';
+import { Tooltip } from '../../core-ui/Tooltip/Tooltip';
 
 interface TvShowTileProps {
   processedEpisodes: ProcessedMatch[];
@@ -48,7 +49,11 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
     setRefinedList(
       (directSearch
         ? newSearch.filter((result) =>
-            [result.episode.name, result.episode.tag].some((val) =>
+            [
+              result.episode.name,
+              result.episode.tag,
+              result.episode.description,
+            ].some((val) =>
               val.toLowerCase().includes(directSearch.toLowerCase())
             )
           )
@@ -193,6 +198,9 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
                     ...overrides,
                     [file.filename]: !isSelected ? item : undefined,
                   });
+                  if (!showRefineOptions) {
+                    setCollapsed(true);
+                  }
                   e.preventDefault();
                   e.stopPropagation();
                 }}
@@ -206,16 +214,30 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
               <span style={{ flexGrow: 1 }}>
                 {newFolderName}/{newFilename}
               </span>
-              <span>
-                {Math.round((rawDistance / file.filename.length) * 1000) / 10}%
-              </span>
-              <span>
-                {Math.round((distance / file.filename.length) * 1000) / 10}%
-              </span>
+              <Tooltip title="Match strength before renaming">
+                <span className="badge bg-secondary">
+                  {Math.round((rawDistance / file.filename.length) * 1000) / 10}
+                  %
+                </span>
+              </Tooltip>
+              <Tooltip title="Match strength after renaming">
+                <span className="badge bg-secondary">
+                  {Math.round((distance / file.filename.length) * 1000) / 10}%
+                </span>
+              </Tooltip>
             </div>
             <hr />
             <span>Prev Filename: "{prevNormFilename}"</span>
-            <span>Matched Episode: "{episode.name}"</span>
+            <div className="d-flex justify-content-between align-items-center">
+              <span>Matched Episode: "{episode.name}"</span>
+              {episode.description && (
+                <Tooltip title={episode.description}>
+                  <span>
+                    <FontAwesomeIcon icon={faAlignLeft} />
+                  </span>
+                </Tooltip>
+              )}
+            </div>
             {tagChanged && (
               <span className="badge bg-warning">Tag Changed</span>
             )}

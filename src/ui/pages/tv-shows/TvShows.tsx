@@ -59,7 +59,7 @@ export const TvShows: React.FC = () => {
         console.log({ invalid: parsedData.filter(filterFn) });
         throw new Error('Incorrect format');
       }
-      const remapped = parsedData.map(({ name, tag }) => {
+      const remapped = parsedData.map(({ name, tag, description }) => {
         const matches = tag.match(/(S(\d+)E(\d+)|Special\s+(\d+)x(\d+))/i);
         if (matches) {
           const [
@@ -75,10 +75,11 @@ export const TvShows: React.FC = () => {
             tag,
             seasonNumber: +(seasonNumber ?? specialSeasonNumber),
             episodeNumber: +(episodeNumber ?? specialEpisodeNumber),
+            description: description || '',
           };
         }
         console.error("Couldn't match season tag", { tag, name });
-        return { name, tag };
+        return { name, tag, description: description || '' };
       });
       localStorage.setItem(CACHE_KEY, JSON.stringify(remapped));
       return remapped;
@@ -129,7 +130,7 @@ export const TvShows: React.FC = () => {
         ...sortCol
       );
     } else {
-      return processedObjects;
+      return [];
     }
   }, [processedObjects, sortCol, filters]);
 
