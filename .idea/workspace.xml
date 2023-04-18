@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65f011f0-9b9b-4ae3-a673-5f02a9b3549d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ui/core-ui/Tooltip/Tooltip.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowTile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowTile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShows.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +82,7 @@
       <workItem from="1680663317282" duration="17913000" />
       <workItem from="1681579969880" duration="20921000" />
       <workItem from="1681601178223" duration="5940000" />
-      <workItem from="1681834798967" duration="2601000" />
+      <workItem from="1681834798967" duration="2707000" />
     </task>
     <servers />
   </component>

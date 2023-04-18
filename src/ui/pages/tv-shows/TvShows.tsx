@@ -60,6 +60,7 @@ export const TvShows: React.FC = () => {
         throw new Error('Incorrect format');
       }
       const remapped = parsedData.map(({ name, tag, description }) => {
+        const commonProps = { name, tag, description: description || '' };
         const matches = tag.match(/(S(\d+)E(\d+)|Special\s+(\d+)x(\d+))/i);
         if (matches) {
           const [
@@ -71,15 +72,13 @@ export const TvShows: React.FC = () => {
             specialEpisodeNumber,
           ] = matches;
           return {
-            name,
-            tag,
+            ...commonProps,
             seasonNumber: +(seasonNumber ?? specialSeasonNumber),
             episodeNumber: +(episodeNumber ?? specialEpisodeNumber),
-            description: description || '',
           };
         }
         console.error("Couldn't match season tag", { tag, name });
-        return { name, tag, description: description || '' };
+        return commonProps;
       });
       localStorage.setItem(CACHE_KEY, JSON.stringify(remapped));
       return remapped;
