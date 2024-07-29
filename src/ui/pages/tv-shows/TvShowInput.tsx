@@ -97,8 +97,17 @@ export const TvShowInput: React.FC<TvShowInputProps> = ({
             className="form-control"
             value={episodeData}
             onChange={(event) => {
-              setEpisodeData(event.target.value);
-              setEpisodeDataCollapsed(true);
+              const newValue = event.target.value;
+              setEpisodeData(newValue);
+              let valid;
+              try {
+                valid = JSON.parse(newValue)?.length > 0;
+              } catch (e) {
+                valid = false;
+              }
+              if (valid) {
+                setEpisodeDataCollapsed(true);
+              }
             }}
           />
           <div>Parsed {parsedData?.length} objects</div>

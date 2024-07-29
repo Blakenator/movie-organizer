@@ -1,23 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import {
-  PlexFile,
-  PlexMovieMetadata,
-  RenameReport,
-} from '../../../common/types';
+import React, { useMemo, useState } from 'react';
+import { RenameReport } from '../../../common/types';
 import { Channel } from '../../../common/channel';
-import { ipcOnce } from '../../core-ui/ipc/helpers';
 import { MovieList } from './MovieList/MovieList';
 import { MovieFilters } from './MovieFilters/MovieFilters';
 import { MovieFilterState } from './MovieFilters/types';
 import { transformMoviePath } from '../../../common/helpers';
 import { RenameReportModal } from './RenameReportModal/RenameReportModal';
 import { Spinner } from 'react-bootstrap';
+import { useBackend, useBackendMutation } from '../../core-ui';
 
 export const Home: React.FC = () => {
   const [path, setPath] = useState(
     '/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/com.plexapp.plugins.library.db'
   );
-  const [movieList, setMovieList] = useState<PlexFile<PlexMovieMetadata>[]>();
   const [filters, setFilters] = useState<MovieFilterState>({
     libraries: [],
     search: '',
@@ -26,27 +21,22 @@ export const Home: React.FC = () => {
     '{title} ({year}) [{resolution}]'
   );
   const [selection, setSelection] = useState<Set<string>>(new Set([]));
-  const [renameLoading, setRenameLoading] = useState(false);
   const [renameReport, setRenameReport] = useState<RenameReport>();
+  const { data: db, refetch: fetchMovies } = useBackend({
+    channel: Channel.OpenDb,
+    props: { path },
+  });
+  const { data: movieList } = useBackend({
+    channel: Channel.LoadMovies,
+    skip: !db,
+  });
+  const [renameMovies, { loading: renameLoading }] = useBackendMutation({
+    channel: Channel.RenameMovies,
+  });
+  const [restoreAddedAt] = useBackendMutation({
+    channel: Channel.RestoreAddedAt,
+  });
 
-  async function fetchMovies() {
-    try {
-      setMovieList(await ipcOnce(Channel.LoadMovies));
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  const openAndLoadMovies = async () => {
-    await ipcOnce(Channel.OpenDb, path);
-    await fetchMovies();
-  };
-
-  useEffect(() => {
-    if (path) {
-      openAndLoadMovies();
-    }
-  }, [path]);
   const titlesById = useMemo(
     () =>
       Object.fromEntries(
@@ -76,15 +66,12 @@ export const Home: React.FC = () => {
         <button
           className="btn btn-danger me-2"
           onClick={() => {
-            setRenameLoading(true);
-            ipcOnce(
-              Channel.RenameMovies,
-              movieList
+            renameMovies({
+              transformedPaths: movieList
                 .filter(({ id }) => selection.has(id))
-                .map((movie) => transformMoviePath(movie, renamePattern))
-            ).then((report) => {
+                .map((movie) => transformMoviePath(movie, renamePattern)),
+            }).then(({ content: report }) => {
               setRenameReport(report);
-              setRenameLoading(false);
             });
           }}
           disabled={renameLoading || !!renameReport || selection.size === 0}
@@ -94,7 +81,7 @@ export const Home: React.FC = () => {
         <button
           className="btn btn-danger me-2"
           onClick={() => {
-            ipcOnce(Channel.RestoreAddedAt, Array.from(selection.values()));
+            restoreAddedAt({ ids: Array.from(selection.values()) });
           }}
         >
           Restore Added At Times

@@ -43,9 +43,9 @@
         }
       ],
       "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
+        {
+          "name": "@electron-forge/plugin-webpack",
+          "config": {
             "mainConfig": "./webpack.main.config.js",
             "renderer": {
               "config": "./webpack.renderer.config.js",
@@ -69,17 +69,17 @@
               ]
             }
           }
-        ]
+        }
       ]
     }
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.61",
-    "@electron-forge/maker-deb": "^6.0.0-beta.61",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
-    "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "@electron-forge/plugin-webpack": "^6.0.0-beta.61",
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-webpack": "^7.4.0",
     "@types/lodash": "^4.14.178",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
@@ -89,7 +89,7 @@
     "@typescript-eslint/parser": "^5.8.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.0",
     "css-loader": "^6.5.1",
-    "electron": "16.0.5",
+    "electron": "^31.3.0",
     "eslint": "^8.5.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^16.1.0",
@@ -104,14 +104,15 @@
     "prettier": "^2.5.1",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
-    "ts-loader": "^9.2.6",
-    "typescript": "^4.5.4"
+    "ts-loader": "^9.4.4",
+    "typescript": "^4.9.5"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
+    "@superflag/super-ipc": "^0.0.9",
     "bootstrap": "^5.1.3",
     "electron-squirrel-startup": "^1.0.0",
     "fastest-levenshtein": "^1.0.16",
@@ -121,7 +122,7 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
     "sass": "^1.45.1",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.1.7",
     "styled-components": "^5.3.3"
   }
 }

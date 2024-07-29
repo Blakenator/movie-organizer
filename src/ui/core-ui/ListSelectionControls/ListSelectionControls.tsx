@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import { uniq } from 'lodash';
+import React, { ReactElement, useMemo } from 'react';
+import { difference, uniq } from 'lodash';
 
 interface ListSelectionControlsProps<T> {
   sourceList: T[];
@@ -14,6 +14,8 @@ export const ListSelectionControls = <T,>({
   selectedList,
   onSelectionChanged,
 }: ListSelectionControlsProps<T>): ReactElement => {
+  const selectionSet = useMemo(() => new Set(selectedList), [selectedList]);
+
   return (
     <div
       className="mb-2 px-4 d-flex align-items-center"
@@ -24,14 +26,25 @@ export const ListSelectionControls = <T,>({
       <span className="text-muted">{filteredList.length} matches</span>
       <span>-</span>
       <span className="text-muted">{selectedList.length} selected</span>
-      <button
-        className="btn btn-sm btn-outline-secondary"
-        onClick={() => {
-          onSelectionChanged(sourceList);
-        }}
-      >
-        Select All
-      </button>
+      {selectedList.length === sourceList.length ? (
+        <button
+          className="btn btn-sm btn-outline-secondary"
+          onClick={() => {
+            onSelectionChanged([]);
+          }}
+        >
+          Deselect All
+        </button>
+      ) : (
+        <button
+          className="btn btn-sm btn-outline-secondary"
+          onClick={() => {
+            onSelectionChanged(sourceList);
+          }}
+        >
+          Select All
+        </button>
+      )}
       <button
         className="btn btn-sm btn-outline-secondary"
         onClick={() => {
@@ -40,14 +53,25 @@ export const ListSelectionControls = <T,>({
       >
         Select Only Visible
       </button>
-      <button
-        className="btn btn-sm btn-outline-secondary"
-        onClick={() => {
-          onSelectionChanged(uniq(selectedList.concat(filteredList)));
-        }}
-      >
-        Add Visible to Selection
-      </button>
+      {filteredList.every((item) => selectionSet.has(item)) ? (
+        <button
+          className="btn btn-sm btn-outline-secondary"
+          onClick={() => {
+            onSelectionChanged(difference(selectedList, filteredList));
+          }}
+        >
+          Remove Visible from Selection
+        </button>
+      ) : (
+        <button
+          className="btn btn-sm btn-outline-secondary"
+          onClick={() => {
+            onSelectionChanged(uniq(selectedList.concat(filteredList)));
+          }}
+        >
+          Add Visible to Selection
+        </button>
+      )}
       <button
         className="btn btn-sm btn-outline-secondary"
         onClick={() => {

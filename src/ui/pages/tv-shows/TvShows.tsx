@@ -187,6 +187,25 @@ export const TvShows: React.FC = () => {
           Process
         </button>
         <button
+          className="btn btn-warning"
+          onClick={() => {
+            if (parsed.length > 0 && fileObjects.length > 0) {
+              if (
+                processedObjects.length > 0 &&
+                !confirm(
+                  'Are you sure you want to clear? This will clear your current selection'
+                )
+              ) {
+                return;
+              }
+              setProcessedObjects([]);
+              setSelection([]);
+            }
+          }}
+        >
+          Clear Processed Episodes
+        </button>
+        <button
           className="btn btn-success"
           onClick={() => {
             setSortCol([
@@ -197,6 +216,7 @@ export const TvShows: React.FC = () => {
         >
           Toggle Sort Order
         </button>
+        <span className="flex-grow-1" />
         <button
           className="btn btn-primary"
           onClick={() => {
@@ -213,7 +233,7 @@ export const TvShows: React.FC = () => {
           disabled={renameLoading || !!renameReport || selection.length === 0}
         >
           <FontAwesomeIcon icon={faSave} className="me-2" />
-          Rename Files
+          Rename Files ({selection.length})
         </button>
       </div>
       {fileObjects.length > 0 && (

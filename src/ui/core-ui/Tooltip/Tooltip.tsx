@@ -9,7 +9,7 @@ interface TooltipProps {
 export const Tooltip: React.FC<TooltipProps> = ({
   title,
   children,
-  trigger = ['hover'],
+  trigger = ['hover', 'focus'],
 }) => {
   return (
     <OverlayTrigger

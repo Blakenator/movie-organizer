@@ -20,7 +20,7 @@ export function compareFileToOptions(
     parsed.map((ep) => {
       const filename = renameSettings.replaceInEpisodes?.trim()
         ? file.filename.replace(
-            new RegExp(renameSettings.replaceInEpisodes, 'i'),
+            new RegExp(renameSettings.replaceInEpisodes, 'ig'),
             ''
           )
         : file.filename;
@@ -32,26 +32,30 @@ export function compareFileToOptions(
         prevNormFilename.trim().toLowerCase(),
         episodeName.toLowerCase()
       );
-      const specialTag =
+      const tagOrSpecialTag =
         ep.seasonNumber === 0
           ? 'S00E' + (ep.episodeNumber < 10 ? '0' : '') + ep.episodeNumber
-          : undefined;
+          : ep.tag;
       const newFilename = transformPattern(
         renameSettings.fileTemplate || '{tag} - {name}.{ext}',
         {
           ...ep,
           name: episodeName.replace(/[~"#%&*:<>?/\\{|}]+/g, ''),
           ext: ext,
-          ...(specialTag ? { tag: specialTag } : {}),
+          tag: tagOrSpecialTag,
         }
       ).trim();
-      const bestDistance = distance(
-        prevNormFilename.toLowerCase(),
-        newFilename
-          .toLowerCase()
-          .substring(0, newFilename.lastIndexOf('.'))
-          .trim()
-      );
+      const bestDistance =
+        renameSettings.useTagAsSource &&
+        prevNormFilename.toLowerCase().includes(tagOrSpecialTag.toLowerCase())
+          ? 0
+          : distance(
+              prevNormFilename.toLowerCase(),
+              newFilename
+                .toLowerCase()
+                .substring(0, newFilename.lastIndexOf('.'))
+                .trim()
+            );
       return {
         episode: ep,
         file,
@@ -65,7 +69,9 @@ export function compareFileToOptions(
             : renameSettings.folderTemplate?.trim() || 'Season {seasonNumber}',
           { ...ep }
         ),
-        tagChanged: !prevNormFilename.includes(specialTag ?? ep.tag),
+        tagChanged: !prevNormFilename
+          .toLowerCase()
+          .includes(tagOrSpecialTag.toLowerCase()),
       };
     }),
     ['distance', 'episode.tag'],

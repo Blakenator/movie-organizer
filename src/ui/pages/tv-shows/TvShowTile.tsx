@@ -227,7 +227,9 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
               </Tooltip>
             </div>
             <hr />
-            <span>Prev Filename: "{prevNormFilename}"</span>
+            <Tooltip title={file.filename}>
+              <span>Prev Filename: "{prevNormFilename}"</span>
+            </Tooltip>
             <div className="d-flex justify-content-between align-items-center">
               <span>Matched Episode: "{episode.name}"</span>
               {episode.description && (

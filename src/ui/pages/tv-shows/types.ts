@@ -27,4 +27,5 @@ export interface RenameSettings {
   replaceInEpisodes?: string;
   fileTemplate?: string;
   folderTemplate?: string;
+  useTagAsSource?: boolean;
 }

@@ -1,7 +1,4 @@
-import { ipcRenderer, contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
+import { registerElectronApiBridge } from '@superflag/super-ipc/preloader';
 
-console.log('Preloading ipcRenderer...');
-// usable as window.electron.ipcRenderer
-contextBridge.exposeInMainWorld('electron', {
-  ipcRenderer,
-});
+registerElectronApiBridge(contextBridge, ipcRenderer);

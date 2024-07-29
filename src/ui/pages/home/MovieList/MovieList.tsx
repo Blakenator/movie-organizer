@@ -233,7 +233,6 @@ export const MovieList: React.FC<MovieListProps> = ({
           )
         )}
       </div>
-      ;
     </div>
   ) : null;
 };

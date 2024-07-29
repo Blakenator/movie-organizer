@@ -22,7 +22,16 @@ export class PlexIntegration {
   async loadMovies(): Promise<PlexFile<PlexMovieMetadata>[]> {
     return new Promise((resolve, reject) => {
       try {
-        this.plexDb.all(
+        this.plexDb.all<{
+          id: string;
+          title: string;
+          library: string;
+          libraryPath: string;
+          resolution: string;
+          airDate: string;
+          filepath: string;
+          subtitleFilepath: string;
+        }>(
           `SELECT mi.id,
                   mi.title,
                   ls.name                    AS library,
@@ -53,12 +62,12 @@ export class PlexIntegration {
                           ? [
                               filepath,
                               decodeURIComponent(
-                                subtitleFilepath.replace('file://', '')
+                                subtitleFilepath.replace('file://', ''),
                               ),
                             ]
-                          : [filepath]
+                          : [filepath],
                       )
-                      .flat(3)
+                      .flat(3),
                   ),
                   metadata: {
                     title: deduped[0].title,
@@ -66,10 +75,10 @@ export class PlexIntegration {
                     resolution: deduped[0].resolution,
                   },
                 })),
-                'metadata.title'
-              )
+                'metadata.title',
+              ),
             );
-          }
+          },
         );
       } catch (e) {
         reject(e);
@@ -80,7 +89,16 @@ export class PlexIntegration {
   async loadTvShows(): Promise<PlexFile<PlexMovieMetadata>[]> {
     return new Promise((resolve, reject) => {
       try {
-        this.plexDb.all(
+        this.plexDb.all<{
+          id: string;
+          title: string;
+          library: string;
+          libraryPath: string;
+          resolution: string;
+          airDate: string;
+          filepath: string;
+          subtitleFilepath: string;
+        }>(
           `SELECT mi.id,
                   mi.title,
                   ls.name                    AS library,
@@ -111,12 +129,12 @@ export class PlexIntegration {
                           ? [
                               filepath,
                               decodeURIComponent(
-                                subtitleFilepath.replace('file://', '')
+                                subtitleFilepath.replace('file://', ''),
                               ),
                             ]
-                          : [filepath]
+                          : [filepath],
                       )
-                      .flat(3)
+                      .flat(3),
                   ),
                   metadata: {
                     title: deduped[0].title,
@@ -124,10 +142,10 @@ export class PlexIntegration {
                     resolution: deduped[0].resolution,
                   },
                 })),
-                'metadata.title'
-              )
+                'metadata.title',
+              ),
             );
-          }
+          },
         );
       } catch (e) {
         reject(e);
@@ -140,13 +158,13 @@ export class PlexIntegration {
     return TEST_MODE
       ? filename.replace(
           '/mnt/shared_drive/plex/Movies',
-          '/mnt/shared_drive/plex_testing/Movies'
+          '/mnt/shared_drive/plex_testing/Movies',
         )
       : filename;
   }
 
   async renameMovies(
-    transformedPaths: TransformedPaths[]
+    transformedPaths: TransformedPaths[],
   ): Promise<RenameReport> {
     const report: RenameReport = {
       renamedIds: [],
@@ -170,7 +188,7 @@ export class PlexIntegration {
           if (fs.existsSync(newPath)) {
             // skip this file
             console.log(
-              'Skipping rename because "' + newPath + '" already exists'
+              'Skipping rename because "' + newPath + '" already exists',
             );
             report.skippedPaths.push({
               value: newPath,
@@ -184,7 +202,7 @@ export class PlexIntegration {
             console.log(
               'Skipping rename because "' +
                 oldPathSafe +
-                '"Old filename does not exist'
+                '"Old filename does not exist',
             );
             report.skippedPaths.push({ value: newPath, message: '' });
             return;
@@ -205,7 +223,7 @@ export class PlexIntegration {
             console.log(
               'Skipping old folder cleanup because "' +
                 oldParentDir +
-                '" is not empty'
+                '" is not empty',
             );
             report.skippedCleanupPaths.push({
               value: oldParentDir,
@@ -222,7 +240,7 @@ export class PlexIntegration {
       Object.entries(report).map(([key, value]) => [
         key,
         uniqBy(value, 'value'),
-      ])
+      ]),
     ) as unknown as RenameReport;
   }
 
@@ -240,7 +258,7 @@ export class PlexIntegration {
                        ON mp.media_item_id = mit.id GROUP BY mit.metadata_item_id 
                        ) AS mp_nested
           WHERE mp_nested.metadata_item_id = metadata_items.id AND metadata_items.id IN (${new Array(
-            ids.length
+            ids.length,
           )
             .fill('?')
             .join(',')})`;
@@ -253,7 +271,7 @@ export class PlexIntegration {
             } else {
               resolve(true);
             }
-          }
+          },
         );
       } catch (e) {
         reject(e);
@@ -287,7 +305,7 @@ export class PlexIntegration {
                 }
               });
             }
-          }
+          },
         );
       } catch (e) {
         reject(e);

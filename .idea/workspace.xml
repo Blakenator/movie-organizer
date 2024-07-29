@@ -5,7 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65f011f0-9b9b-4ae3-a673-5f02a9b3549d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/ui/core-ui/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/handlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/handlers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/helpers.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/plexIntegration.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/plexIntegration.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/preload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/preload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/channel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/channel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/core-ui/ListSelectionControls/ListSelectionControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/core-ui/ListSelectionControls/ListSelectionControls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/core-ui/Tooltip/Tooltip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/core-ui/Tooltip/Tooltip.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/core-ui/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/core-ui/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/home/MovieList/MovieList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/home/MovieList/MovieList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvRenameSettings/TvRenameSettings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvRenameSettings/TvRenameSettings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowTile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowTile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShows.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/helpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +48,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="23JDZB6opvA1wCcZvT0GRQ6hVzu" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -37,6 +63,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;tv-shows&quot;,
     &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/blake/Documents/projects/movie-organizer/node_modules/@superflag/super-ipc&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -55,6 +82,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/node_modules/@superflag/super-ipc" />
+    </key>
     <key name="es6.move.members.recent.items">
       <recent name="$PROJECT_DIR$/src/ui/pages/tv-shows/constants.ts" />
       <recent name="$PROJECT_DIR$/src/ui/pages/tv-shows/helpers.ts" />
@@ -63,6 +93,13 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/ui/core-ui/Histogram" />
     </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -83,6 +120,10 @@
       <workItem from="1681579969880" duration="20921000" />
       <workItem from="1681601178223" duration="5940000" />
       <workItem from="1681834798967" duration="2707000" />
+      <workItem from="1697169800613" duration="1521000" />
+      <workItem from="1700441546119" duration="599000" />
+      <workItem from="1700442682478" duration="12000" />
+      <workItem from="1722278978145" duration="3625000" />
     </task>
     <servers />
   </component>

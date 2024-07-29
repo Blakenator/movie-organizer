@@ -4,6 +4,7 @@ import {
   RenameReport,
   TransformedPaths,
 } from './types';
+import { BackendSyncApiType } from '@superflag/super-ipc/common';
 
 export enum Channel {
   OpenDb = 'OPEN_DB',
@@ -19,4 +20,15 @@ export interface ChannelTypes {
   [Channel.RenameMovies]: [[TransformedPaths[]], RenameReport];
   [Channel.RestoreAddedAt]: [[string[]], boolean];
   [Channel.ShowFolder]: [[string], void];
+}
+
+export interface BackendPromiseApi extends BackendSyncApiType<Channel> {
+  [Channel.OpenDb]: { props: { path: string }; result: boolean };
+  [Channel.LoadMovies]: { props: never; result: PlexFile<PlexMovieMetadata>[] };
+  [Channel.RenameMovies]: {
+    props: { transformedPaths: TransformedPaths[] };
+    result: RenameReport;
+  };
+  [Channel.RestoreAddedAt]: { props: { ids: string[] }; result: boolean };
+  [Channel.ShowFolder]: { props: { path: string }; result: void };
 }

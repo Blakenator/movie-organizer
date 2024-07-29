@@ -56,6 +56,19 @@ export const TvRenameSettings: React.FC<TvRenameSettingsProps> = ({
           }
         />
       </label>
+      <label className="d-flex align-items-center" style={{ gap: '.5em' }}>
+        <input
+          type="checkbox"
+          checked={renameSettings.useTagAsSource}
+          onChange={(event) =>
+            setRenameSettings({
+              ...renameSettings,
+              useTagAsSource: event.target.checked,
+            })
+          }
+        />
+        <span>Use Episode Tag as Source</span>
+      </label>
     </div>
   );
 };
