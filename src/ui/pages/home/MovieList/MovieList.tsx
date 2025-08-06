@@ -18,9 +18,9 @@ import {
 import { MovieFilterState } from '../MovieFilters/types';
 import { groupBy, keyBy, uniq } from 'lodash';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
-import { ipcOnce } from '../../../core-ui/ipc/helpers';
 import { Channel } from '../../../../common/channel';
 import { ListSelectionControls } from '../../../core-ui/ListSelectionControls/ListSelectionControls';
+import { useBackendMutation } from '../../../core-ui';
 
 interface MovieListProps {
   movies?: PlexFile<PlexMovieMetadata>[];
@@ -43,6 +43,7 @@ export const MovieList: React.FC<MovieListProps> = ({
 }) => {
   const moviesById = useMemo(() => keyBy(movies ?? [], 'id'), [movies]);
   const [selectionStart, setSelectionStart] = useState<number>();
+  const [showFolder] = useBackendMutation({ channel: Channel.ShowFolder });
 
   function selectionUpdated() {
     setSelection(new Set(selection));
@@ -68,7 +69,7 @@ export const MovieList: React.FC<MovieListProps> = ({
     > = {};
     if (movies) {
       const moviePathPairs = movies.flatMap(({ id }) =>
-        uniq(transformedPathsById[id].newPaths).map((path) => ({ id, path }))
+        uniq(transformedPathsById[id].newPaths).map((path) => ({ id, path })),
       );
       const groupedPathPairs = groupBy(moviePathPairs, 'path');
       movies.forEach((movie) => {
@@ -78,7 +79,8 @@ export const MovieList: React.FC<MovieListProps> = ({
             uniq(transformedPathsById[movie.id].newPaths).length !==
             movie.filepaths.length,
           externalConflicts: transformedPathsById[movie.id].newPaths.flatMap(
-            (path) => groupedPathPairs[path].filter(({ id }) => id !== movie.id)
+            (path) =>
+              groupedPathPairs[path].filter(({ id }) => id !== movie.id),
           ),
         };
       });
@@ -103,8 +105,8 @@ export const MovieList: React.FC<MovieListProps> = ({
           (filters.withConflicts === undefined ||
             filters.withConflicts ===
               (conflictsById[id]?.internalConflicts ||
-                conflictsById[id]?.externalConflicts.length > 0))
-      )
+                conflictsById[id]?.externalConflicts.length > 0)),
+      ),
     );
     setSelectionStart(undefined);
   }, [
@@ -144,7 +146,7 @@ export const MovieList: React.FC<MovieListProps> = ({
                         filteredMovies
                           .slice(
                             selectionStart > i ? i : selectionStart,
-                            selectionStart > i ? selectionStart + 1 : i + 1
+                            selectionStart > i ? selectionStart + 1 : i + 1,
                           )
                           .forEach(({ id }) => selection.add(id));
                         setSelectionStart(i);
@@ -174,7 +176,7 @@ export const MovieList: React.FC<MovieListProps> = ({
                       {getFilenameFromPath(path)}
                       <button
                         className="btn btn-sm btn-link ms-2"
-                        onClick={() => ipcOnce(Channel.ShowFolder, path)}
+                        onClick={() => showFolder({ path })}
                         title="Show in folder"
                       >
                         <FontAwesomeIcon icon={faFolderOpen} />
@@ -189,7 +191,7 @@ export const MovieList: React.FC<MovieListProps> = ({
                             title={transformedPathsById[id].newPaths[i]}
                           >
                             {getFilenameFromPath(
-                              transformedPathsById[id].newPaths[i]
+                              transformedPathsById[id].newPaths[i],
                             )}
                           </div>
                           <span className="badge bg-danger">Changed</span>
@@ -214,7 +216,7 @@ export const MovieList: React.FC<MovieListProps> = ({
                           <li key={id}>
                             {moviesById[id].metadata.title} - {path}
                           </li>
-                        )
+                        ),
                       )}
                     </ul>
                   </div>
@@ -230,7 +232,7 @@ export const MovieList: React.FC<MovieListProps> = ({
                 <span className="badge bg-warning">{library}</span>
               </div>
             </div>
-          )
+          ),
         )}
       </div>
     </div>

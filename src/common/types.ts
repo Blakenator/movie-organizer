@@ -30,3 +30,16 @@ export interface RenameReport {
   skippedPaths: RenameReportItem[];
   skippedCleanupPaths: RenameReportItem[];
 }
+export interface TvDbEntry {
+  name: string;
+  tag: string;
+  description: string;
+}
+export interface TvDbShow {
+  name: string;
+  description: string;
+  releaseYear?: string;
+  id?: string;
+  coverPhotoSrc?: string;
+  slug: string;
+}

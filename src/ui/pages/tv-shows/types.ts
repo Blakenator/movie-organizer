@@ -21,6 +21,8 @@ export type ProcessedMatch = {
   newFilename: string;
   newFolderName: string;
   tagChanged: boolean;
+  oldRelativePath: string;
+  newRelativePath: string;
 };
 
 export interface RenameSettings {

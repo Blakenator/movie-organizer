@@ -44,7 +44,7 @@ export const TvRenameSettings: React.FC<TvRenameSettingsProps> = ({
       </label>
       <label className="d-flex flex-column" style={{ gap: '.5em' }}>
         <span>Replace Text Before Match (Regex)</span>
-        <input
+        <textarea
           className="form-control"
           style={{ width: '20em' }}
           value={renameSettings.replaceInEpisodes}

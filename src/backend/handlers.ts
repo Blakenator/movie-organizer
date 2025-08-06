@@ -3,7 +3,9 @@
 import { PlexIntegration } from './plexIntegration';
 import { BackendPromiseApi, Channel } from '../common/channel';
 import { shell } from 'electron';
-import { BackendSyncHandlersType } from '@superflag/super-ipc/backend';
+import { BackendSyncHandlersType } from '@superflag/super-ipc-backend';
+import { JSDOM } from 'jsdom';
+import { loadTvDbEpisodes, searchTvDb } from './tvDb';
 
 let plexIntegration: PlexIntegration;
 
@@ -21,4 +23,6 @@ export const BackendHandlers: BackendSyncHandlersType<
   [Channel.RestoreAddedAt]: ({ args: { ids } }) =>
     plexIntegration.restoreAddedAtTimes(ids),
   [Channel.ShowFolder]: ({ args: { path } }) => shell.showItemInFolder(path),
+  [Channel.LoadTvDbEpisodes]: ({ args: { slug } }) => loadTvDbEpisodes(slug),
+  [Channel.SearchTvDb]: ({ args: { searchText } }) => searchTvDb(searchText),
 };

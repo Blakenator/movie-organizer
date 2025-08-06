@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import './app.scss';
+// import './app.scss';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from './routes/routes';
 import { Navbar } from './core-ui/nav/Navbar';

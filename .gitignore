@@ -90,3 +90,5 @@ out/
 
 .idea/dataSources
 .idea/dataSources.*
+.idea
+.vite

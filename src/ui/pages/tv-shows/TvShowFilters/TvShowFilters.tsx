@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { TvShowFilterState } from './types';
+import { PerfectMatchFilterState, TvShowFilterState } from './types';
 import { debounce, isEqual } from 'lodash';
 
 interface TvShowFiltersProps {
@@ -67,7 +67,7 @@ export const TvShowFilters: React.FC<TvShowFiltersProps> = ({
                 ...tempFilters,
                 maxDiffPercent: Math.max(
                   +event.target.value,
-                  tempFilters.minDiffPercent ?? 0
+                  tempFilters.minDiffPercent ?? 0,
                 ),
               })
             }
@@ -86,7 +86,7 @@ export const TvShowFilters: React.FC<TvShowFiltersProps> = ({
                 ...tempFilters,
                 minDiffPercent: Math.min(
                   100 - +event.target.value,
-                  tempFilters.maxDiffPercent ?? 100
+                  tempFilters.maxDiffPercent ?? 100,
                 ),
               })
             }
@@ -97,20 +97,28 @@ export const TvShowFilters: React.FC<TvShowFiltersProps> = ({
           <span>{tempFilters.minDiffPercent ?? 0}%</span>
         </div>
       </div>
-      <label>
-        <input
-          className="me-2"
-          type="checkbox"
-          checked={tempFilters.excludePerfectMatches}
-          onClick={() =>
-            setTempFilters({
-              ...tempFilters,
-              excludePerfectMatches: !tempFilters.excludePerfectMatches,
-            })
-          }
-        />
-        Exclude Perfect Matches
-      </label>
+      <select
+        className="form-select"
+        style={{ width: '20em' }}
+        value={tempFilters.excludePerfectMatches ?? 'undefined'}
+        onChange={(event) =>
+          setTempFilters({
+            ...tempFilters,
+            excludePerfectMatches:
+              event.target.value === 'undefined'
+                ? undefined
+                : (event.target.value as PerfectMatchFilterState),
+          })
+        }
+      >
+        <option value={'undefined'}>Include All Perfect Matches</option>
+        <option value={PerfectMatchFilterState.OnlyRenames}>
+          Include only Changed Paths
+        </option>
+        <option value={PerfectMatchFilterState.NoPerfectMatches}>
+          Exclude All Perfect Matches
+        </option>
+      </select>
       <select
         className="form-select"
         style={{ width: '20em' }}
@@ -122,8 +130,8 @@ export const TvShowFilters: React.FC<TvShowFiltersProps> = ({
               event.target.value === 'true'
                 ? true
                 : event.target.value === 'false'
-                ? false
-                : undefined,
+                  ? false
+                  : undefined,
           })
         }
       >

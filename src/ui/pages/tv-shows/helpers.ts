@@ -13,7 +13,7 @@ export function compareFileToOptions(
   parsed: ParsedTvMetadata[],
   file: FileObject,
   renameSettings: RenameSettings,
-  showAll?: boolean
+  showAll?: boolean,
 ): ProcessedMatch[] {
   const ext = file.filename.substring(file.filename.lastIndexOf('.') + 1);
   const results = orderBy(
@@ -21,7 +21,7 @@ export function compareFileToOptions(
       const filename = renameSettings.replaceInEpisodes?.trim()
         ? file.filename.replace(
             new RegExp(renameSettings.replaceInEpisodes, 'ig'),
-            ''
+            '',
           )
         : file.filename;
       const prevNormFilename = filename
@@ -30,7 +30,7 @@ export function compareFileToOptions(
       const episodeName = ep.name.trim();
       const rawDistance = distance(
         prevNormFilename.trim().toLowerCase(),
-        episodeName.toLowerCase()
+        episodeName.toLowerCase(),
       );
       const tagOrSpecialTag =
         ep.seasonNumber === 0
@@ -43,7 +43,7 @@ export function compareFileToOptions(
           name: episodeName.replace(/[~"#%&*:<>?/\\{|}]+/g, ''),
           ext: ext,
           tag: tagOrSpecialTag,
-        }
+        },
       ).trim();
       const bestDistance =
         renameSettings.useTagAsSource &&
@@ -54,8 +54,14 @@ export function compareFileToOptions(
               newFilename
                 .toLowerCase()
                 .substring(0, newFilename.lastIndexOf('.'))
-                .trim()
+                .trim(),
             );
+      const newFolderName = transformPattern(
+        +ep.seasonNumber === 0
+          ? 'Specials'
+          : renameSettings.folderTemplate?.trim() || 'Season {seasonNumber}',
+        { ...ep },
+      );
       return {
         episode: ep,
         file,
@@ -63,19 +69,20 @@ export function compareFileToOptions(
         prevNormFilename,
         newFilename,
         rawDistance: rawDistance,
-        newFolderName: transformPattern(
-          +ep.seasonNumber === 0
-            ? 'Specials'
-            : renameSettings.folderTemplate?.trim() || 'Season {seasonNumber}',
-          { ...ep }
-        ),
+        newFolderName: newFolderName,
         tagChanged: !prevNormFilename
           .toLowerCase()
           .includes(tagOrSpecialTag.toLowerCase()),
+        oldRelativePath: file.path.substring(
+          file.path.lastIndexOf(
+            file.relativePath.substring(file.relativePath.indexOf('/')),
+          ) + 1,
+        ),
+        newRelativePath: newFolderName + '/' + newFilename,
       };
     }),
     ['distance', 'episode.tag'],
-    ['asc', 'asc']
+    ['asc', 'asc'],
   );
 
   return showAll ? results : results.slice(0, 5);
@@ -84,7 +91,7 @@ export function compareFileToOptions(
 export function buildRenamingList(
   episodeMatches: ProcessedMatch[][],
   selectionSet: Set<string>,
-  overrides: Record<string, ProcessedMatch>
+  overrides: Record<string, ProcessedMatch>,
 ): TransformedPaths[] {
   if (selectionSet.size === 0) {
     return [];
@@ -100,9 +107,9 @@ export function buildRenamingList(
         0,
         oldPath.lastIndexOf(
           match.file.relativePath.substring(
-            match.file.relativePath.indexOf('/')
-          )
-        )
+            match.file.relativePath.indexOf('/'),
+          ),
+        ),
       );
       const newPath =
         prevRoot + '/' + match.newFolderName + '/' + match.newFilename;

@@ -5,29 +5,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65f011f0-9b9b-4ae3-a673-5f02a9b3549d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ui/core-ui/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vite/build/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vite/build/preload.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/forge.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pnpm-workspace.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/preload.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/tvDb.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vite.main.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vite.preload.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vite.renderer.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/movie-organizer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/movie-organizer.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend/handlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/handlers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/helpers.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/plexIntegration.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/plexIntegration.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/preload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/preload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/preload.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/channel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/channel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/core-ui/ListSelectionControls/ListSelectionControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/core-ui/ListSelectionControls/ListSelectionControls.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/core-ui/Tooltip/Tooltip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/core-ui/Tooltip/Tooltip.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/core-ui/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/core-ui/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/core-ui/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/core-ui/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/core-ui/ipc/helpers.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/home/MovieList/MovieList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/home/MovieList/MovieList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvRenameSettings/TvRenameSettings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvRenameSettings/TvRenameSettings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowFilters/TvShowFilters.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowFilters/TvShowFilters.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowFilters/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowFilters/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowInput.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowTile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShowTile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/TvShows.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/helpers.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/pages/tv-shows/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/pages/tv-shows/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/renderer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/renderer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/routes/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/routes/routes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.main.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.plugins.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.renderer.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.rules.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +57,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -58,31 +78,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;tv-shows&quot;,
-    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/blake/Documents/projects/movie-organizer/node_modules/@superflag/super-ipc&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;/home/blake/.nvm/versions/node/v18.13.0/bin/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/home/blake/Documents/projects/movie-organizer/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/blake/Documents/projects/movie-organizer/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.git.unshallow": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "tv-shows",
+    "javascript.nodejs.core.library.configured.version": "22.17.0",
+    "javascript.nodejs.core.library.typings.version": "22.17.0",
+    "js.introduce.parameter.generate.optional": "false",
+    "js.last.introduce.type": "CONST",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/home/blake/Documents/projects/movie-organizer/src/backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/home/blake/.nvm/versions/node/v22.17.0/bin/node",
+    "nodejs_package_manager_path": "pnpm",
+    "npm.start.executor": "Debug",
+    "prettierjs.PrettierConfiguration.Package": "/home/blake/Documents/projects/movie-organizer/node_modules/prettier",
+    "settings.editor.selected.configurable": "settings.nodejs",
+    "ts.external.directory.path": "/home/blake/Documents/projects/movie-organizer/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/backend" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/node_modules/@superflag/super-ipc" />
     </key>
     <key name="es6.move.members.recent.items">
@@ -91,13 +119,31 @@
       <recent name="$PROJECT_DIR$/src/ui/pages/tv-shows/types.ts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/ui/core-ui/Histogram" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-WS-251.26927.40" />
       </set>
     </attachedChunks>
   </component>
@@ -123,7 +169,10 @@
       <workItem from="1697169800613" duration="1521000" />
       <workItem from="1700441546119" duration="599000" />
       <workItem from="1700442682478" duration="12000" />
-      <workItem from="1722278978145" duration="3625000" />
+      <workItem from="1722278978145" duration="4476000" />
+      <workItem from="1723605232574" duration="244000" />
+      <workItem from="1753257454426" duration="1564000" />
+      <workItem from="1754452242851" duration="23142000" />
     </task>
     <servers />
   </component>

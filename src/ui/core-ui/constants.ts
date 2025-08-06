@@ -1,7 +1,7 @@
 import {
   createUseBackendMutationSyncHook,
   createUseBackendSyncHook,
-} from '@superflag/super-ipc/react';
+} from '@superflag/super-ipc-react';
 import { BackendPromiseApi, Channel } from '../../common/channel';
 
 export const useBackend = createUseBackendSyncHook<

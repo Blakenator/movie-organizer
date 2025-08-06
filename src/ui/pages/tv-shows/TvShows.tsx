@@ -13,34 +13,38 @@ import { ListSelectionControls } from '../../core-ui/ListSelectionControls/ListS
 import { CACHE_KEY, CACHE_KEY_FILES } from './constants';
 import { TvShowInput } from './TvShowInput';
 import { Histogram } from '../../core-ui/Histogram/Histogram';
-import { TvShowFilterState } from './TvShowFilters/types';
+import {
+  PerfectMatchFilterState,
+  TvShowFilterState,
+} from './TvShowFilters/types';
 import { TvShowFilters } from './TvShowFilters/TvShowFilters';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
-import { ipcOnce } from '../../core-ui/ipc/helpers';
 import { Channel } from '../../../common/channel';
 import { RenameReport } from '../../../common/types';
 import { RenameReportModal } from '../home/RenameReportModal/RenameReportModal';
 import { TvRenameSettings } from './TvRenameSettings/TvRenameSettings';
+import { useBackendMutation } from '../../core-ui';
 
 export const TvShows: React.FC = () => {
   const [episodeData, setEpisodeData] = useState(
-    localStorage.getItem(CACHE_KEY) || ''
+    localStorage.getItem(CACHE_KEY) || '',
   );
   const [fileObjects, setFileObjects] = useState<FileObject[]>(
-    JSON.parse(localStorage.getItem(CACHE_KEY_FILES) || '[]') ?? []
+    JSON.parse(localStorage.getItem(CACHE_KEY_FILES) || '[]') ?? [],
   );
   const [selection, setSelection] = useState<string[]>([]);
   const [processedObjects, setProcessedObjects] = useState<ProcessedMatch[][]>(
-    []
+    [],
   );
   const [sortCol, setSortCol] = useState<
     [((val: ProcessedMatch[]) => string)[], ('asc' | 'desc')[]]
   >([[([match]) => match.newFilename], ['asc']]);
   const [filters, setFilters] = useState<TvShowFilterState>({});
   const [overrides, setOverrides] = useState<Record<string, ProcessedMatch>>(
-    {}
+    {},
   );
+  const [renameMovies] = useBackendMutation({ channel: Channel.RenameMovies });
   const [renameSettings, setRenameSettings] = useState<RenameSettings>({});
   const [renameLoading, setRenameLoading] = useState(false);
   const [renameReport, setRenameReport] = useState<RenameReport>();
@@ -101,32 +105,37 @@ export const TvShows: React.FC = () => {
                 list[0].newFilename,
                 list[0].newFolderName,
               ].some((str) =>
-                str.toLowerCase().includes(filters.text.toLowerCase())
+                str.toLowerCase().includes(filters.text.toLowerCase()),
               );
           }
           if (filters.maxDiffPercent !== undefined) {
             valid =
               valid &&
               Math.round(
-                (list[0].distance / list[0].file.filename.length) * 100
+                (list[0].distance / list[0].file.filename.length) * 100,
               ) <= filters.maxDiffPercent;
           }
           if (filters.minDiffPercent !== undefined) {
             valid =
               valid &&
               Math.round(
-                (list[0].distance / list[0].file.filename.length) * 100
+                (list[0].distance / list[0].file.filename.length) * 100,
               ) >= filters.minDiffPercent;
           }
           if (filters.excludePerfectMatches) {
-            valid = valid && list[0].distance > 0;
+            valid =
+              valid &&
+              (list[0].distance > 0 ||
+                (filters.excludePerfectMatches ===
+                  PerfectMatchFilterState.OnlyRenames &&
+                  list[0].oldRelativePath !== list[0].newRelativePath));
           }
           if (filters.onlyChangedTags !== undefined) {
             valid = valid && list[0].tagChanged === filters.onlyChangedTags;
           }
           return valid;
         }),
-        ...sortCol
+        ...sortCol,
       );
     } else {
       return [];
@@ -159,13 +168,14 @@ export const TvShows: React.FC = () => {
       />
       <div className="d-flex" style={{ gap: '.5em' }}>
         <button
-          className="btn btn-danger"
+          className={`btn ${selection.length > 0 ? 'btn-danger' : 'btn-primary'}`}
           onClick={() => {
             if (parsed.length > 0 && fileObjects.length > 0) {
               if (
+                selection.length > 0 &&
                 processedObjects.length > 0 &&
                 !confirm(
-                  'Are you sure you want to re-process? This will clear your current selection'
+                  'Are you sure you want to re-analyze? This will clear your current selections',
                 )
               ) {
                 return;
@@ -177,14 +187,14 @@ export const TvShows: React.FC = () => {
                   setProcessedObjects((prevState) =>
                     prevState.concat([
                       compareFileToOptions(parsed, file, renameSettings),
-                    ])
+                    ]),
                   );
                 }, 10);
               });
             }
           }}
         >
-          Process
+          Analyze
         </button>
         <button
           className="btn btn-warning"
@@ -193,7 +203,7 @@ export const TvShows: React.FC = () => {
               if (
                 processedObjects.length > 0 &&
                 !confirm(
-                  'Are you sure you want to clear? This will clear your current selection'
+                  'Are you sure you want to clear? This will clear your current selections',
                 )
               ) {
                 return;
@@ -221,10 +231,13 @@ export const TvShows: React.FC = () => {
           className="btn btn-primary"
           onClick={() => {
             setRenameLoading(true);
-            ipcOnce(
-              Channel.RenameMovies,
-              buildRenamingList(processedObjects, selectionSet, overrides)
-            ).then((report) => {
+            renameMovies({
+              transformedPaths: buildRenamingList(
+                processedObjects,
+                selectionSet,
+                overrides,
+              ),
+            }).then(({ data: report }) => {
               setRenameReport(report);
               setRenameLoading(false);
               console.log(report);

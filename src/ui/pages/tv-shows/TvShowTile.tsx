@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { ParsedTvMetadata, ProcessedMatch, RenameSettings } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAlignLeft, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { faCircle } from '@fortawesome/free-regular-svg-icons';
+import {
+  faAlignLeft,
+  faCheck,
+  faCheckCircle,
+  faCheckSquare,
+} from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faSquare } from '@fortawesome/free-regular-svg-icons';
 import { compareFileToOptions } from './helpers';
 import { Tooltip } from '../../core-ui/Tooltip/Tooltip';
 
@@ -31,7 +36,7 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
   const [showRefineOptions, setShowRefineOptions] = useState(false);
   const [directSearch, setDirectSearch] = useState('');
   const [reprocessFilename, setReprocessFilename] = useState(
-    processedEpisodes[0].file.filename
+    processedEpisodes[0].file.filename,
   );
   const [refinedList, setRefinedList] = useState<ProcessedMatch[]>();
   const performRefinement = () => {
@@ -41,7 +46,7 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
         ? { ...processedEpisodes[0].file, filename: reprocessFilename }
         : processedEpisodes[0].file,
       renameSettings,
-      true
+      true,
     ).map((match) => ({
       ...match,
       file: { ...match.file, filename: processedEpisodes[0].file.filename },
@@ -53,15 +58,18 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
               result.episode.name,
               result.episode.tag,
               result.episode.description,
+              result.newFilename,
             ].some((val) =>
-              val.toLowerCase().includes(directSearch.toLowerCase())
-            )
+              val.toLowerCase().includes(directSearch.toLowerCase()),
+            ),
           )
         : newSearch
-      ).slice(0, 20)
+      ).slice(0, 20),
     );
   };
 
+  const topPick =
+    overrides[processedEpisodes[0].file.filename] ?? processedEpisodes[0];
   return (
     <div
       className={`card p-2 ${selected ? 'border-info' : ''}`}
@@ -72,8 +80,8 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
           bestMatch < 0.1
             ? undefined
             : bestMatch < 0.25
-            ? 'rgba(255,191,0,0.35)'
-            : 'rgba(255,89,0,0.35)',
+              ? 'rgba(255,191,0,0.35)'
+              : 'rgba(255,89,0,0.35)',
       }}
     >
       {!collapsed && (
@@ -150,102 +158,120 @@ export const TvShowTile: React.FC<TvShowTileProps> = ({
           </div>
         </div>
       )}
-      {(collapsed
-        ? [
-            overrides[processedEpisodes[0].file.filename] ??
-              processedEpisodes[0],
-          ]
-        : refinedList ?? processedEpisodes
-      ).map((item, i) => {
-        const {
-          distance,
-          episode,
-          file,
-          newFilename,
-          prevNormFilename,
-          rawDistance,
-          newFolderName,
-          tagChanged,
-        } = item;
-        const isSelected =
-          selected &&
-          (overrides[file.filename] ?? processedEpisodes[0]).newFilename ===
-            newFilename;
-        return (
-          <div
-            key={newFilename}
-            className="card p-2"
-            style={{
-              gap: '.5em',
-              backgroundColor: isSelected
-                ? 'rgb(84,171,255)'
-                : i > 0
-                ? 'rgba(0,0,0,.1)'
-                : undefined,
-            }}
-            onClick={() => {
-              if (i === 0) {
-                setCollapsed(!collapsed);
-              }
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '.5em' }}>
-              <button
-                className="btn btn-outline-secondary"
-                onClick={(e) => {
-                  setSelected(!isSelected);
-                  setOverrides({
-                    ...overrides,
-                    [file.filename]: !isSelected ? item : undefined,
-                  });
-                  if (!showRefineOptions) {
-                    setCollapsed(true);
-                  }
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={isSelected ? faCheckCircle : faCircle}
-                  className="text-info"
-                  title="Toggle selection"
-                />
-              </button>
-              <span style={{ flexGrow: 1 }}>
-                {newFolderName}/{newFilename}
+      {topPick && (
+        <div className="card">
+          <div className="card-body">
+            <Tooltip title={topPick.file.path}>
+              <span>
+                Prev Filename: "<b>{topPick.prevNormFilename}</b>"
               </span>
-              <Tooltip title="Match strength before renaming">
-                <span className="badge bg-secondary">
-                  {Math.round((rawDistance / file.filename.length) * 1000) / 10}
-                  %
-                </span>
-              </Tooltip>
-              <Tooltip title="Match strength after renaming">
-                <span className="badge bg-secondary">
-                  {Math.round((distance / file.filename.length) * 1000) / 10}%
-                </span>
-              </Tooltip>
-            </div>
-            <hr />
-            <Tooltip title={file.filename}>
-              <span>Prev Filename: "{prevNormFilename}"</span>
             </Tooltip>
-            <div className="d-flex justify-content-between align-items-center">
-              <span>Matched Episode: "{episode.name}"</span>
-              {episode.description && (
-                <Tooltip title={episode.description}>
-                  <span>
-                    <FontAwesomeIcon icon={faAlignLeft} />
+          </div>
+        </div>
+      )}
+      <span>Alternatives:</span>
+      {(collapsed ? [topPick] : (refinedList ?? processedEpisodes)).map(
+        (item, i) => {
+          const {
+            distance,
+            episode,
+            file,
+            newFilename,
+            rawDistance,
+            newFolderName,
+            tagChanged,
+          } = item;
+          const isSelected =
+            selected &&
+            (overrides[file.filename] ?? processedEpisodes[0]).newFilename ===
+              newFilename;
+          return (
+            <div
+              key={newFilename + isSelected}
+              className="card p-2"
+              style={{
+                gap: '.5em',
+                backgroundColor: isSelected
+                  ? 'rgb(84,171,255)'
+                  : i > 0
+                    ? 'rgba(0,0,0,.1)'
+                    : undefined,
+              }}
+              onClick={() => {
+                if (i === 0) {
+                  setCollapsed(!collapsed);
+                }
+              }}
+            >
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '.5em' }}
+              >
+                <span>{i + 1}</span>
+                <Tooltip title="Match strength before renaming">
+                  <span className="badge bg-secondary">
+                    {Math.round((rawDistance / file.filename.length) * 1000) /
+                      10}
+                    %
                   </span>
                 </Tooltip>
+                <Tooltip title="Match strength after renaming">
+                  <span className="badge bg-secondary">
+                    {Math.round((distance / file.filename.length) * 1000) / 10}%
+                  </span>
+                </Tooltip>
+                <span className="flex-grow-1" />
+                <button
+                  className={`btn ${isSelected ? 'btn-success' : 'btn-outline-secondary'} d-inline-flex gap-2 align-items-center`}
+                  title="Toggle selection"
+                  onClick={(e) => {
+                    setSelected(!isSelected);
+                    setOverrides({
+                      ...overrides,
+                      [file.filename]: !isSelected ? item : undefined,
+                    });
+                    if (!showRefineOptions) {
+                      setCollapsed(true);
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                >
+                  <span>{isSelected ? 'Selected' : 'Select'}</span>
+                  {isSelected && <FontAwesomeIcon icon={faCheck} />}
+                </button>
+              </div>
+              <hr />
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Matched Episode: "{episode.name}"</span>
+                <div className="badge bg-secondary">{episode.tag}</div>
+                {episode.description && (
+                  <div
+                    className="d-flex align-items-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Tooltip
+                      title={episode.description}
+                      trigger={['click', 'focus']}
+                    >
+                      <button className="btn btn-outline-secondary">
+                        <FontAwesomeIcon icon={faAlignLeft} />
+                      </button>
+                    </Tooltip>
+                  </div>
+                )}
+              </div>
+              <div className="d-flex justify-content-between align-items-center">
+                <span>
+                  New Path: "{newFolderName}/{newFilename}"
+                </span>
+              </div>
+              {tagChanged && (
+                <span className="badge bg-warning">Tag Changed</span>
               )}
             </div>
-            {tagChanged && (
-              <span className="badge bg-warning">Tag Changed</span>
-            )}
-          </div>
-        );
-      })}
+          );
+        },
+      )}
     </div>
   );
 };
