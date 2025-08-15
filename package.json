@@ -51,7 +51,8 @@
     "ts-loader": "^9.4.4",
     "ts-node": "^10.0.0",
     "typescript": "^4.9.5",
-    "@types/jsdom": "^21.1.7"
+    "@types/jsdom": "^21.1.7",
+    "eslint-plugin-import": "^2.25.3"
   },
   "dependencies": {
     "canvas": "^3.1.2",
@@ -59,10 +60,10 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
-    "@superflag/super-ipc-backend": "^0.0.18",
-    "@superflag/super-ipc-core": "^0.0.18",
-    "@superflag/super-ipc-preloader": "^0.0.18",
-    "@superflag/super-ipc-react": "^0.0.18",
+    "@superflag/super-ipc-backend": "^0.0.21",
+    "@superflag/super-ipc-core": "^0.0.21",
+    "@superflag/super-ipc-preloader": "^0.0.21",
+    "@superflag/super-ipc-react": "^0.0.21",
     "@types/lodash": "^4.14.197",
     "bootstrap": "^5.3.7",
     "electron-squirrel-startup": "^1.0.0",
